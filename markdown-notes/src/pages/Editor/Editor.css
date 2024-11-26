@@ -1,0 +1,15 @@
+.editor-container {
+  padding: 20px;
+}
+
+.editor-header {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+/* 适配 markdown 编辑器的样式 */
+.wmde-markdown-var {
+  background-color: #ffffff;
+} 
