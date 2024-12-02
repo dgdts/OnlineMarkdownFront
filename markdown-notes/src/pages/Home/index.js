@@ -1,102 +1,122 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Input, Empty, Typography } from 'antd';
-import { PlusOutlined, SearchOutlined, FireOutlined } from '@ant-design/icons';
+import { Card, Button, Input, Empty, message, Spin } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { noteService } from '../../services/api';
 import ParticlesBackground from '../../components/ParticlesBackground';
 import './Home.css';
 
-const { Title } = Typography;
+const NoteCard = ({ note, onClick, style }) => (
+  <Card
+    className="note-card"
+    style={style}
+    onClick={onClick}
+    hoverable
+  >
+    <div className="card-content">
+      <h3 className="note-title">{note.title}</h3>
+      <div className="note-meta">
+        <div className="note-tags">
+          {note.tags && note.tags.map(tag => (
+            <span key={tag} className="tag">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="note-info">
+          <span className="note-date">
+            {new Date(note.updated_at.seconds * 1000).toLocaleDateString()}
+          </span>
+        </div>
+      </div>
+    </div>
+  </Card>
+);
 
 const Home = () => {
   const navigate = useNavigate();
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [notes] = useState([
-    {
-      id: 1,
-      title: 'Getting Started with Markdown',
-      preview: 'Markdown is a lightweight markup language...',
-      createdAt: '2024-03-20',
-      tags: ['guide', 'markdown'],
-      color: '#a8e6cf'
-    },
-    {
-      id: 2,
-      title: 'Project Ideas',
-      preview: 'List of potential project ideas for 2024...',
-      createdAt: '2024-03-21',
-      tags: ['ideas', 'projects'],
-      color: '#ffd3b6'
-    }
-  ]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
+    loadNotes();
+  }, [currentPage]);
+
+  const loadNotes = async () => {
+    try {
+      const response = await noteService.getNotes(currentPage, 10);
+      setNotes(response.data.notes || []);
+    } catch (error) {
+      message.error('Failed to load notes');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredNotes = notes.filter(note =>
+    note.title.toLowerCase().includes(searchText.toLowerCase()) ||
+    (note.tags && note.tags.some(tag => tag.toLowerCase().includes(searchText.toLowerCase())))
+  );
 
   return (
     <div className="home-container">
       <ParticlesBackground />
       
-      <div className={`hero-section ${isLoading ? '' : 'loaded'}`}>
-        <Title level={1} className="glowing-text">
-          <FireOutlined className="hero-icon" /> Digital Notebook
-        </Title>
-        <p className="hero-subtitle">Capture your thoughts in style</p>
-        <Button 
-          type="primary" 
-          size="large"
-          icon={<PlusOutlined />}
-          onClick={() => navigate('/editor')}
-          className="create-button"
-        >
-          Create New Note
-        </Button>
+      <div className="hero-section loaded">
+        <div className="hero-content">
+          <h1 className="glowing-text">Digital Notebook</h1>
+          <p className="hero-subtitle">Capture your thoughts in style</p>
+          <Button 
+            type="primary" 
+            size="large"
+            icon={<PlusOutlined />}
+            onClick={() => navigate('/editor')}
+            className="create-button"
+          >
+            Create New Note
+          </Button>
+        </div>
       </div>
 
       <div className="content-section">
-        <div className="search-bar">
+        <div className="search-section">
           <Input
             prefix={<SearchOutlined className="search-icon" />}
-            placeholder="Search your notes..."
+            placeholder="Search notes..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             className="search-input"
+            allowClear
           />
         </div>
 
-        {notes.length > 0 ? (
+        {loading ? (
+          <div className="loading-container">
+            <Spin size="large" />
+          </div>
+        ) : filteredNotes.length > 0 ? (
           <div className="notes-grid">
-            {notes.map((note, index) => (
-              <Card
-                key={note.id}
-                className="note-card"
+            {filteredNotes.map((note, index) => (
+              <NoteCard
+                key={note.note_id}
+                note={note}
+                onClick={() => navigate(`/editor/${note.note_id}`)}
                 style={{
                   '--delay': `${index * 0.1}s`,
-                  '--color': note.color
+                  '--color': note.color || '#6c5ce7'
                 }}
-                onClick={() => navigate(`/editor/${note.id}`)}
-              >
-                <div className="card-content">
-                  <h3>{note.title}</h3>
-                  <p className="note-preview">{note.preview}</p>
-                  <div className="note-footer">
-                    <div className="note-tags">
-                      {note.tags.map(tag => (
-                        <span key={tag} className="tag">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="note-date">{note.createdAt}</span>
-                  </div>
-                </div>
-              </Card>
+              />
             ))}
           </div>
         ) : (
           <Empty
-            description="No notes yet. Start creating!"
+            description={
+              <span className="empty-text">
+                {searchText ? "No matching notes found" : "Start creating your first note"}
+              </span>
+            }
             className="empty-state"
           />
         )}
@@ -105,4 +125,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home; 

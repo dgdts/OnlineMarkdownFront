@@ -1,15 +1,471 @@
+.editor-page {
+  min-height: 100vh;
+  padding-top: 84px; /* 导航栏高度 + 额外间距 */
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
 .editor-container {
-  padding: 20px;
+  max-width: 1600px;
+  width: 95%;
+  margin: 0 auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .editor-header {
   display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+
+.editor-header .ant-space {
+  display: flex;
+  gap: 16px;
+}
+
+.editor-header .ant-input {
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.editor-header .ant-select {
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.editor-header .ant-btn {
+  height: 40px;
+  padding: 0 24px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.editor-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.ant-input, .ant-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.ant-input::placeholder, .ant-select-selection-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ant-btn-primary {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+  border: none;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+}
+
+.ant-btn-primary:hover {
+  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+}
+
+.ant-btn-primary:focus {
+  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+}
+
+@media (max-width: 768px) {
+  .editor-container {
+    padding: 20px;
+  }
+
+  .editor-header .ant-space {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .editor-header .ant-input,
+  .editor-header .ant-select {
+    width: 100% !important;
+  }
+
+  .editor-header .ant-btn {
+    width: 100%;
+  }
 }
 
 /* 适配 markdown 编辑器的样式 */
 .wmde-markdown-var {
   background-color: #ffffff;
+}
+
+/* 添加编辑器的全局样式 */
+.mde-editor {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.mde-text {
+  background: transparent !important;
+  color: white !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  padding: 16px !important;
+}
+
+.mde-preview {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+}
+
+.mde-header {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.mde-toolbar {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.mde-toolbar-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.mde-toolbar-item:hover {
+  color: #6c5ce7 !important;
+}
+
+.mde-preview pre {
+  background: rgba(0, 0, 0, 0.2) !important;
+  color: #f8f8f2 !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  overflow-x: auto;
+}
+
+/* 优化预览部分样式 */
+.wmde-markdown {
+  background-color: rgba(26, 26, 46, 0.8) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-family: 'Roboto', sans-serif !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+}
+
+/* 标题样式 */
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown h4,
+.wmde-markdown h5,
+.wmde-markdown h6 {
+  color: #6c5ce7 !important;
+  border-bottom: 1px solid rgba(108, 92, 231, 0.2) !important;
+  padding-bottom: 0.3em !important;
+}
+
+/* 代码块样式 */
+.wmde-markdown pre {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+/* 行内代码样式 */
+.wmde-markdown code {
+  background: rgba(108, 92, 231, 0.2) !important;
+  color: #a29bfe !important;
+  padding: 0.2em 0.4em !important;
+  border-radius: 3px !important;
+}
+
+/* 引用块样式 */
+.wmde-markdown blockquote {
+  border-left: 4px solid #6c5ce7 !important;
+  background: rgba(108, 92, 231, 0.1) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 1em !important;
+  margin: 1em 0 !important;
+}
+
+/* 链接样式 */
+.wmde-markdown a {
+  color: #6c5ce7 !important;
+  text-decoration: none !important;
+}
+
+.wmde-markdown a:hover {
+  text-decoration: underline !important;
+}
+
+/* 表格样式 */
+.wmde-markdown table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 1em 0 !important;
+}
+
+.wmde-markdown th,
+.wmde-markdown td {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 8px 12px !important;
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.wmde-markdown th {
+  background: rgba(108, 92, 231, 0.2) !important;
+}
+
+/* 列表样式 */
+.wmde-markdown ul,
+.wmde-markdown ol {
+  padding-left: 2em !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 分割线样式 */
+.wmde-markdown hr {
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  margin: 2em 0 !important;
+}
+
+/* 图片样式 */
+.wmde-markdown img {
+  max-width: 100% !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.header-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title-input {
+  font-size: 1.5em;
+  height: auto;
+  padding: 8px 12px;
+}
+
+.tags-select {
+  width: 100%;
+}
+
+.save-button {
+  min-width: 100px;
+  height: 40px;
+}
+
+@media (max-width: 768px) {
+  .editor-header {
+    flex-direction: column;
+  }
+  
+  .save-button {
+    width: 100%;
+  }
+}
+
+/* 输入框和选择器的基础样式 */
+.ant-input, .ant-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* 输入框焦点和悬停状态 */
+.ant-input:hover, .ant-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #6c5ce7;
+  color: white;
+}
+
+/* 输入框占位符文本 */
+.ant-input::placeholder, .ant-select-selection-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Select 组件的特定样式 */
+.ant-select-selector {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.ant-select-selection-item {
+  color: white !important;
+  background: rgba(108, 92, 231, 0.5) !important;
+  border: 1px solid rgba(108, 92, 231, 0.8) !important;
+  border-radius: 4px !important;
+  padding: 2px 8px !important;
+  margin: 2px !important;
+  font-weight: 500 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ant-select-selection-item .ant-select-selection-item-remove {
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin-left: 6px !important;
+}
+
+.ant-select-selection-item .ant-select-selection-item-remove:hover {
+  color: white !important;
+}
+
+.ant-select-selection-item:hover {
+  background: rgba(108, 92, 231, 0.7) !important;
+  border-color: rgba(108, 92, 231, 1) !important;
+  box-shadow: 0 2px 6px rgba(108, 92, 231, 0.3) !important;
+}
+
+.ant-select-selection-search-input {
+  color: white !important;
+}
+
+/* 下拉菜单样式 */
+.ant-select-dropdown {
+  background: rgba(26, 26, 46, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 下拉选项样式 */
+.ant-select-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 8px 12px !important;
+  transition: all 0.3s ease !important;
+}
+
+.ant-select-item-option-active {
+  background: rgba(108, 92, 231, 0.2) !important;
+}
+
+.ant-select-item-option-selected {
+  background: rgba(108, 92, 231, 0.3) !important;
+  color: white !important;
+}
+
+/* 下拉菜单滚动条样式 */
+.ant-select-dropdown .ant-select-item-option-content {
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.ant-select-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ant-select-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(108, 92, 231, 0.5);
+  border-radius: 4px;
+}
+
+.ant-select-dropdown::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 92, 231, 0.7);
+}
+
+/* 统一所有占位符文本的颜色 */
+.ant-input::placeholder,
+.ant-select-selection-placeholder,
+.ant-select-selector .ant-select-selection-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* 确保标签选择器的输入框文字颜色 */
+.ant-select-selector .ant-select-selection-search-input {
+  color: white !important;
+}
+
+/* 空状态提示样式 */
+.ant-select-empty {
+  padding: 16px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-align: center !important;
+}
+
+.ant-empty-description {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 14px !important;
+}
+
+.ant-empty .ant-empty-image {
+  opacity: 0.8 !important;
+  margin-bottom: 12px !important;
+}
+
+/* 确保空状态图标颜色适配暗色主题 */
+.ant-empty .ant-empty-img-simple-ellipse,
+.ant-empty .ant-empty-img-simple-g {
+  fill: rgba(255, 255, 255, 0.1) !important;
+  stroke: rgba(255, 255, 255, 0.2) !important;
+}
+
+.ant-empty .ant-empty-img-simple-path {
+  fill: rgba(255, 255, 255, 0.15) !important;
+  stroke: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 全屏模式基础样式 */
+.w-md-editor-fullscreen {
+  background: #1a1a2e !important;
+  z-index: 1001 !important;
+  height: 100vh !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* 全屏模式下的工具栏 */
+.w-md-editor-fullscreen .w-md-editor-toolbar {
+  background: rgba(26, 26, 46, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  flex-shrink: 0 !important;
+}
+
+/* 全屏模式下的内容区域 */
+.w-md-editor-fullscreen .w-md-editor-content {
+  flex: 1 !important;
+  height: auto !important;
+  display: flex !important;
+  min-height: 0 !important;
+}
+
+/* 全屏模式下的编辑和预览区域 */
+.w-md-editor-fullscreen .w-md-editor-input,
+.w-md-editor-fullscreen .w-md-editor-preview {
+  flex: 1 !important;
+  height: auto !important;
+  overflow: auto !important;
+}
+
+/* 全屏模式下的文本区域 */
+.w-md-editor-fullscreen .w-md-editor-text-pre,
+.w-md-editor-fullscreen .w-md-editor-text-input,
+.w-md-editor-fullscreen .w-md-editor-text {
+  height: 100% !important;
+  min-height: 100% !important;
 } 
