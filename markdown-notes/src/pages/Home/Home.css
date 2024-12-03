@@ -276,3 +276,16 @@
     grid-template-columns: 1fr;
   }
 }
+
+.editor-container textarea {
+  /* 现有样式... */
+}
+
+.editor-container textarea:hover {
+  border-color: #40a9ff;
+}
+
+.editor-container textarea.dragging {
+  border: 2px dashed #40a9ff;
+  background-color: rgba(64, 169, 255, 0.05);
+}

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Input, Button, message, Space, Select, Spin } from 'antd';
 import MDEditor from '@uiw/react-md-editor';
-import { noteService } from '../../services/api';
+import { noteService, resourceService } from '../../services/api';
 import './Editor.css';
 
 const { Option } = Select;
@@ -15,6 +15,8 @@ const EditorPage = () => {
   const [tags, setTags] = useState([]);
   const [version, setVersion] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const editorRef = useRef(null);
 
   useEffect(() => {
     if (id) {
@@ -89,6 +91,86 @@ const EditorPage = () => {
     }
   };
 
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    if (!dragOver) {
+      setDragOver(true);
+    }
+  };
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragOver(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    const imageFile = files.find(file => file.type.startsWith('image/'));
+    
+    if (!imageFile) {
+      return;
+    }
+
+    try {
+      const tokenResponse = await resourceService.getUploadToken(imageFile);
+      if (tokenResponse.status === 0) {
+        const uploadSuccess = await resourceService.uploadToOSS(tokenResponse.data.upload_url, imageFile);
+        
+        if (uploadSuccess) {
+          const baseUrl = 'http://localhost:9000';
+          const bucket = 'universalserver';
+          const objectKey = tokenResponse.data.upload_url.split('?')[0].split(bucket + '/')[1];
+          
+          const imageUrl = `${baseUrl}/${bucket}/${objectKey}`;
+          const imageMarkdown = `![${imageFile.name}](${imageUrl})`;
+
+          const textArea = editorRef.current?.querySelector('textarea');
+          if (textArea) {
+            // 使用 execCommand 来插入文本，这样可以支持撤销
+            textArea.focus();
+            document.execCommand('insertText', false, imageMarkdown);
+
+            // 自动保存
+            const saveData = {
+              title,
+              content: textArea.value, // 使用 textArea 的值而不是 content 状态
+              tags: tags || []
+            };
+
+            if (id) {
+              if (version === null) {
+                throw new Error('Version information is missing');
+              }
+              
+              const response = await noteService.updateNote({
+                id,
+                version,
+                ...saveData
+              });
+
+              if (response.data && response.data.version) {
+                setVersion(response.data.version);
+              }
+              message.success('Note saved successfully');
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Upload failed:', error);
+      message.error('Failed to upload image');
+    }
+  };
+
   if (loading) {
     return (
       <div className="editor-page">
@@ -131,13 +213,22 @@ const EditorPage = () => {
           </Space>
         </div>
         
-        <MDEditor
-          value={content}
-          onChange={setContent}
-          height={700}
-          preview="live"
-          className="mde-editor"
-        />
+        <div 
+          className={`editor-wrapper ${dragOver ? 'dragging' : ''}`}
+          ref={editorRef}
+        >
+          <MDEditor
+            value={content}
+            onChange={setContent}
+            height={700}
+            preview="live"
+            className="mde-editor"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+          />
+        </div>
       </div>
     </div>
   );
