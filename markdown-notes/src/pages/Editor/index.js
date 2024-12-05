@@ -135,14 +135,18 @@ const EditorPage = () => {
 
           const textArea = editorRef.current?.querySelector('textarea');
           if (textArea) {
-            // 使用 execCommand 来插入文本，这样可以支持撤销
-            textArea.focus();
-            document.execCommand('insertText', false, imageMarkdown);
+            const { selectionStart } = textArea;
+            const newContent = content.slice(0, selectionStart) + 
+                              imageMarkdown + 
+                              content.slice(selectionStart);
+            
+            // Use MDEditor's onChange to maintain undo history
+            setContent(newContent);
 
-            // 自动保存
+            // Auto save
             const saveData = {
               title,
-              content: textArea.value, // 使用 textArea 的值而不是 content 状态
+              content: newContent,
               tags: tags || []
             };
 
