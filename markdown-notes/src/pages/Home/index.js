@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Input, Empty, message, Spin } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { noteService } from '../../services/api';
 import ParticlesBackground from '../../components/ParticlesBackground';
+import { useAuth } from '../../contexts/AuthContext';
 import './Home.css';
 
 const NoteCard = ({ note, onClick, style }) => (
@@ -33,7 +34,56 @@ const NoteCard = ({ note, onClick, style }) => (
   </Card>
 );
 
-const Home = () => {
+const LandingPage = () => (
+  <div className="home-container">
+    <ParticlesBackground />
+    <div className="landing-container">
+      <div className="landing-content">
+        <header className="landing-header">
+          <h1 className="glowing-text">Markdown Notes</h1>
+          <p className="subtitle">Transform your thoughts into beautifully formatted notes</p>
+        </header>
+        
+        <div className="cta-buttons">
+          <Link to="/login" className="cta-button login">
+            <span className="button-content">Login</span>
+          </Link>
+          <Link to="/register" className="cta-button register">
+            <span className="button-content">Get Started</span>
+          </Link>
+        </div>
+
+        <section className="features">
+          <h2 className="features-title">Why Choose Us?</h2>
+          <div className="feature-grid">
+            <div className="feature-item">
+              <div className="feature-icon">✍️</div>
+              <h3>Markdown Support</h3>
+              <p>Write your notes in Markdown format for rich text formatting</p>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">☁️</div>
+              <h3>Cloud Sync</h3>
+              <p>Access your notes from anywhere, anytime</p>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">🔒</div>
+              <h3>Secure</h3>
+              <p>Your notes are encrypted and secure</p>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">🚀</div>
+              <h3>Easy to Use</h3>
+              <p>Simple and intuitive interface</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+);
+
+const Dashboard = () => {
   const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,6 +173,11 @@ const Home = () => {
       </div>
     </div>
   );
+};
+
+const Home = () => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <Dashboard /> : <LandingPage />;
 };
 
 export default Home; 
