@@ -6,6 +6,7 @@ import Editor from './pages/Editor';
 import Register from './pages/Register/Register.tsx';
 import Login from './pages/Login/Login.tsx';
 import RegisterSuccess from './pages/Register/RegisterSuccess';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register-success" element={<RegisterSuccess />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </AuthProvider>
   );
