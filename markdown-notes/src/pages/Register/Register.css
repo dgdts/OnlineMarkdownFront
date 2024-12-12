@@ -1,89 +1,102 @@
 .register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
-.register-box {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
 }
 
-.register-box h2 {
+.register-card {
+  width: 100%;
+  max-width: 450px;
+  background: rgba(13, 17, 23, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.register-header {
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: #fff;
+  margin-bottom: 2rem;
 }
 
-.form-group {
-  margin-bottom: 1rem;
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #6c5ce7;
-  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
-}
+/* 其他样式可以直接复用 Login.css 中的样式，包括：
+.gradient-text
+.form-group
+.input-icon
+.gradient-button
+.social-login
+.divider
+.social-buttons
+.social-button
+.error-message
+等等...
+*/
 
 .register-button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #6c5ce7;
-  color: white;
+  padding: 1rem;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
+  color: white;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 1rem;
   transition: all 0.3s ease;
 }
 
 .register-button:hover {
-  background-color: #5b4cc4;
-  transform: translateY(-2px);
-}
-
-.error-message {
-  color: #ff6b6b;
-  text-align: center;
-  margin-bottom: 1rem;
+  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.3);
 }
 
 .login-link {
   text-align: center;
-  margin-top: 1rem;
-  color: rgba(255, 255, 255, 0.8);
+  margin-top: 2rem;
+  color: #a0aec0;
 }
 
 .login-link a {
-  color: #6c5ce7;
+  color: #6366f1;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .login-link a:hover {
-  text-decoration: underline;
+  color: #4f46e5;
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 2rem;
+  }
+}
+
+.register-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.error-message {
+  background-color: rgba(220, 38, 38, 0.1);
+  color: #ef4444;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  backdrop-filter: blur(4px);
 } 

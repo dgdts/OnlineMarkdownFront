@@ -5,7 +5,7 @@ import { FiEdit3, FiCloud, FiCode, FiUsers, FiBook } from 'react-icons/fi';
 import { BiPalette, BiLock, BiMobile, BiRocket } from 'react-icons/bi';
 import { BsMarkdown, BsQuestionCircle } from 'react-icons/bs';
 import { RiStarSFill } from 'react-icons/ri';
-import ParticlesBackground from '../components/ParticlesBackground';
+import ParticlesBackground from '../../components/ParticlesBackground';
 import './Home.css';
 
 const Home = () => {

@@ -1,0 +1,40 @@
+.register-success-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.register-success-card {
+  width: 100%;
+  max-width: 450px;
+  background: rgba(13, 17, 23, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.success-icon {
+  font-size: 4rem;
+  color: #10B981;
+  margin-bottom: 1.5rem;
+}
+
+.success-message {
+  color: #6B7280;
+  font-size: 1.1rem;
+  margin: 1rem 0;
+}
+
+.redirect-message {
+  color: #6B7280;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+} 

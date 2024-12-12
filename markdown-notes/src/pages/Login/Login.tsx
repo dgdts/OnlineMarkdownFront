@@ -1,18 +1,32 @@
 import React, { useState, CSSProperties } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiMail, FiLock, FiGithub, FiTwitter } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 import ParticlesBackground from '../../components/ParticlesBackground';
 import './Login.css';
+import { authService } from '../../services/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 处理登录逻辑
+    setLoading(true);
+    setError('');
+
+    try {
+      await authService.login(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -105,10 +119,21 @@ const Login = () => {
             className="login-button gradient-button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            disabled={loading}
           >
-            Sign In
+            {loading ? 'Signing in...' : 'Sign In'}
           </motion.button>
         </form>
+
+        {error && (
+          <motion.div 
+            className="error-message"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {error}
+          </motion.div>
+        )}
 
         <motion.div 
           className="social-login"

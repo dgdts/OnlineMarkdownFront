@@ -175,6 +175,60 @@ export const resourceService = {
   }
 };
 
+export const authService = {
+  // 登录
+  login: async (email, password) => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json();
+
+      // 处理错误情况
+      if (result.status !== 0) {
+        throw new Error(result.message || 'Login failed');
+      }
+
+      const { user, access_token } = result.data;
+
+      // 保存认证信息
+      localStorage.setItem('authToken', access_token);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      return result.data;
+    } catch (error) {
+      console.error('Error during login:', error);
+      throw error;
+    }
+  },
+
+  // 登出
+  logout: () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('authToken');
+  },
+
+  // 获取当前用户信息
+  getCurrentUser: () => {
+    const userStr = localStorage.getItem('user');
+    if (!userStr) return null;
+    
+    try {
+      return JSON.parse(userStr);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      return null;
+    }
+  }
+};
+
 // 工具函数
 function getImageFormat(mimeType) {
   const formatMap = {
@@ -184,4 +238,40 @@ function getImageFormat(mimeType) {
     'image/webp': 4
   };
   return formatMap[mimeType] || 0;
-} 
+}
+
+export const register = async (username, email, password) => {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.status !== 0) {
+      return {
+        success: false,
+        message: result.message || 'Registration failed'
+      };
+    }
+
+    return {
+      success: true,
+      message: 'Registration successful'
+    };
+  } catch (error) {
+    console.error('Registration error:', error);
+    return {
+      success: false,
+      message: 'An error occurred during registration'
+    };
+  }
+}; 

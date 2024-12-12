@@ -58,8 +58,8 @@
 .form-group input {
   width: 100%;
   padding: 1rem 1rem 1rem 3rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   color: #ffffff;
   font-size: 1rem;
@@ -67,9 +67,27 @@
 }
 
 .form-group input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
   outline: none;
-  border-color: #61dafb;
-  box-shadow: 0 0 0 2px rgba(97, 218, 251, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-group input:focus,
+.form-group input:not(:placeholder-shown) {
+  color: #ffffff;
+}
+
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.15) inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-options {
@@ -240,15 +258,16 @@
 }
 
 .form-group input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
 .form-group input:focus {
-  border-color: #6366f1;
-  background: white;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
   outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
 .input-icon {
