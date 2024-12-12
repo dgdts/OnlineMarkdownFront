@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Particles from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 
@@ -7,13 +7,24 @@ const ParticlesBackground = () => {
     await loadSlim(engine);
   }, []);
 
+  useEffect(() => {
+    document.body.style.background = '#0d1117';
+    return () => {
+      document.body.style.background = '';
+    };
+  }, []);
+
   return (
     <Particles
       id="tsparticles"
       init={particlesInit}
       options={{
         background: {
-          color: 'transparent',
+          color: '#0d1117',
+        },
+        fullScreen: {
+          enable: true,
+          zIndex: -1
         },
         fpsLimit: 60,
         particles: {
@@ -36,27 +47,19 @@ const ParticlesBackground = () => {
               enable: true,
               area: 800,
             },
-            value: 80,
+            value: 100,
           },
           opacity: {
             value: 0.3,
           },
           shape: {
-            type: 'circle',
+            type: "circle",
           },
           size: {
             value: { min: 1, max: 3 },
           },
         },
         detectRetina: true,
-      }}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
       }}
     />
   );

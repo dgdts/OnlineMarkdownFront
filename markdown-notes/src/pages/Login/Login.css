@@ -1,89 +1,298 @@
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
-.login-box {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
 }
 
-.login-box h2 {
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  background: rgba(13, 17, 23, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.login-header {
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.login-header h1 {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.login-header p {
+  color: #a0aec0;
+  font-size: 1rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  position: relative;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #61dafb;
+  font-size: 1.2rem;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  padding: 1rem 1rem 1rem 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #ffffff;
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  transition: all 0.3s ease;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #6c5ce7;
-  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+  border-color: #61dafb;
+  box-shadow: 0 0 0 2px rgba(97, 218, 251, 0.2);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #a0aec0;
+}
+
+.forgot-password {
+  color: #61dafb;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: #4fa8d8;
 }
 
 .login-button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #6c5ce7;
-  color: white;
+  padding: 1rem;
+  background: linear-gradient(45deg, #61dafb, #764abc);
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
+  color: white;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 1rem;
   transition: all 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: #5b4cc4;
+  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.3);
+}
+
+.social-login {
+  margin-top: 2rem;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 70px);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: transparent;
+  padding: 0 1rem;
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-button {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
+  border-color: #6366f1;
 }
 
-.error-message {
-  color: #ff6b6b;
+.signup-link {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
+  color: #a0aec0;
 }
 
-.register-link {
-  text-align: center;
-  margin-top: 1rem;
-  color: rgba(255, 255, 255, 0.8);
+.signup-link a {
+  color: #61dafb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
-.register-link a {
-  color: #6c5ce7;
+.signup-link a:hover {
+  color: #4fa8d8;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 2rem;
+  }
+
+  .login-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .social-buttons {
+    gap: 0.75rem;
+  }
+
+  .social-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+} 
+
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.login-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.gradient-button {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-group input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.form-group input:focus {
+  border-color: #6366f1;
+  background: white;
+  outline: none;
+}
+
+.input-icon {
+  color: #6b7280;
+}
+
+.forgot-password {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #4f46e5;
+}
+
+.social-button {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.social-button:hover {
+  border-color: #6366f1;
+  background: white;
+}
+
+.signup-link a {
+  color: #6366f1;
+  font-weight: 600;
   text-decoration: none;
 }
 
-.register-link a:hover {
-  text-decoration: underline;
+.signup-link a:hover {
+  color: #4f46e5;
+}
+
+.remember-me {
+  color: #a0aec0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.remember-me input[type="checkbox"] {
+  accent-color: #6366f1;
 } 
